@@ -23,13 +23,14 @@ namespace BooruDownloader.WPF
             LinkResolver.RegisterResolver(new YandereResolver(Boorus.Yandere));
 
             // Register classes manually because generic reactive window is defined in this assembly.
-            Locator.CurrentMutable.Register(() => new MainView(), typeof(IViewFor<MainViewModel>));
-            Locator.CurrentMutable.Register(() => new LinkInputView(), typeof(IViewFor<LinkInputViewModel>));
-            Locator.CurrentMutable.Register(() => new QueueItemView(TagCaches.DanbooruTagCache), typeof(IViewFor<QueueItemViewModel>));
-            Locator.CurrentMutable.Register(() => new SettingsView(), typeof(IViewFor<SettingsViewModel>));
-            Locator.CurrentMutable.Register(() => new PostView(), typeof(IViewFor<PostViewModel>));
-            Locator.CurrentMutable.Register(() => new MediaView(), typeof(IViewFor<MediaViewModel>));
-            Locator.CurrentMutable.Register(() => new TagView(), typeof(IViewFor<TagViewModel>));
+            Locator.CurrentMutable
+                .RegisterAnd<IViewFor<MainViewModel>, MainView>()
+                .RegisterAnd<IViewFor<LinkInputViewModel>, LinkInputView>()
+                .RegisterAnd<IViewFor<QueueItemViewModel>>(() => new QueueItemView(TagCaches.DanbooruTagCache))
+                .RegisterAnd<IViewFor<SettingsViewModel>, SettingsView>()
+                .RegisterAnd<IViewFor<PostViewModel>, PostView>()
+                .RegisterAnd<IViewFor<MediaViewModel>, MediaView>()
+                .RegisterAnd<IViewFor<TagViewModel>, TagView>();
         }
     }
 }
